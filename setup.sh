@@ -17,6 +17,12 @@ echo "----------------------------------------------------------"
 cat _export_presets.cfg | sed -e "s/%PROJECT_NAME%/${GAME}/g" > export_presets.cfg
 echo "✅ Created export preset file"
 
+mkdir Builds
+mkdir Builds/linux
+mkdir Builds/osx
+mkdir Builds/win
+echo "✅ Created build folders"
+
 if cat project.godot | grep -q file_customization
 then
 	echo "🚫 Skip adding file customization settings";

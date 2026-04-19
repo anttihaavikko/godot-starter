@@ -36,12 +36,14 @@ texture = ExtResource("2_1a1d3")
 [node name="Blushes" type="Node2D" parent="." unique_id=319134752]
 
 [node name="Blush Left" type="Sprite2D" parent="Blushes" unique_id=1921362429]
+self_modulate = Color(1, 0.49411765, 0.41960785, 1)
 position = Vector2(-15.749341, 5.1347084)
 rotation = 3.1415925
 scale = Vector2(0.019020557, 0.012130703)
 texture = ExtResource("1_6dtsg")
 
 [node name="Blush Right" type="Sprite2D" parent="Blushes" unique_id=69306370]
+self_modulate = Color(1, 0.49411765, 0.41960785, 1)
 position = Vector2(15.891183, 4.945591)
 rotation = 3.1415925
 scale = Vector2(0.019587915, 0.011374233)

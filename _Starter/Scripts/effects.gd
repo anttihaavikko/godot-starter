@@ -16,6 +16,7 @@ func _init() -> void:
 		singleton = self
 
 @export var effects: Array[PackedScene]
+@export var pop_index := 0
 
 var pools: Array[Array]
 
@@ -26,6 +27,11 @@ func _ready() -> void:
 
 func add_many(indices: Array[int], pos: Vector2):
 	for i in indices: add(i, pos)
+
+func pop(text: String, pos: Vector2) -> TextPop:
+	var t := add(pop_index, pos, 2) as TextPop
+	t.pop(text)
+	return t
 
 func add(index: int, pos: Vector2, pool_size: int = -1) -> Node:
 	var effect := effects[index].instantiate()

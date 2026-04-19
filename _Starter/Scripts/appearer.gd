@@ -4,6 +4,7 @@ extends Node
 @export var appear_after := 0.0
 @export var auto_hide_after := 0.0
 @export var duration := 0.3
+@export var center_pivot := false
 
 var obj
 var size: Vector2
@@ -15,15 +16,22 @@ func _ready() -> void:
 	if obj is Node2D or obj is Control:
 		size = obj.scale
 		obj.scale = Vector2.ZERO
-		
+
+	repivot()
+
 	if appear_after > 0:
 		appear(appear_after)
 	if auto_hide_after:
 		disappear(auto_hide_after)
+		
+func repivot():
+	if center_pivot:
+		obj.pivot_offset = size * 0.5
 
 func appear(delay: float = 0.0):
 	if shown or not get_tree():
 		return
+	repivot()
 	if tween: await tween.finished
 	shown = true
 	tween = get_tree().create_tween().tween_property(obj, "scale", size, duration).set_trans(Tween.TRANS_BOUNCE).set_delay(delay)
@@ -33,6 +41,7 @@ func appear(delay: float = 0.0):
 func disappear(delay: float = 0.0):
 	if not shown or not get_tree():
 		return
+	repivot()
 	if tween: await tween.finished
 	shown = false
 	tween = get_tree().create_tween().tween_property(obj, "scale", Vector2.ZERO, duration).set_trans(Tween.TRANS_ELASTIC).set_delay(delay)

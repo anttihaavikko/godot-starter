@@ -6,45 +6,67 @@ class_name Leaderboards extends VBoxContainer
 
 var base_url := "https://games.sahaqiel.com"
 var http_req: HTTPRequest
+var send_req: HTTPRequest
 
-var player_name: String
-var player_id: String
 var rows: Array[ScoreRow] = []
+var player: PlayerData
+var saver := Saver.new("player-data.json")
+var current_page := 0
 
 func _ready() -> void:
+	player = saver.load(func(): return PlayerData.new()) as PlayerData
+	saver.save(player)
+	# print(player.name, " / ", player.id)
 	http_req = HTTPRequest.new()
+	send_req = HTTPRequest.new()
 	add_child(http_req)
+	add_child(send_req)
 	for i in per_page:
 		var row = row_prefab.instantiate() as ScoreRow
+		row.hide()
 		row.flag.texture.resource_local_to_scene = true
 		rows.push_back(row)
 		add_child(row)
+	http_req.request_completed.connect(got_scores)
 	load_scores(0)
+
+func next_page():
+	current_page += 1
+	load_scores(current_page)
+	
+func prev_page():
+	if current_page > 0:
+		current_page -= 1
+		load_scores(current_page)
+
+func change_name(to: String):
+	player.name = to
+	saver.save(player)
 
 func load_scores(page: int):
 	var url = "%s/leaderboards/load-scores.php?amt=%d&p=%d&game=%s" % [base_url, per_page, page, game_name]
-	print(url)
-	http_req.request_completed.connect(got_scores)
 	http_req.request(url)
 	
 func submit(score: int, level: int):
 	var data := "";
-	data += player_name
-	data += "," + player_id
+	data += player.name
+	data += "," + player.id
 	data += "," + str(level)
 	data += "," + str(round(score))
-	data += "," + str(Secrets.get_verification_number(player_name, score, level))
+	data += "," + str(Secrets.get_verification_number(player.name, score, level))
 	data += "," + game_name;
 	var url = "%s/leaderboards/save-score.php?str=%s" % [base_url, data]
-	http_req.request(url)
+	send_req.request(url)
 
 func got_scores(_result: int, _response_code: int, _headers: PackedStringArray, body: PackedByteArray):
 	var json := JSON.new()
 	json.parse(body.get_string_from_utf8())
 	var i := 0
+	for row in rows: row.hide()
 	for score in json.get_data().scores:
 		rows[i].name_label.text = "%d. %s" % [score.position, score.name]
 		rows[i].score_label.text = Utils.as_score(int(score.score)) + " "
+		rows[i].show()
 		var off := get_flag_coordinates(score.locale)
 		var tex := rows[i].flag.texture as AtlasTexture
 		tex.region = Rect2(off.x, off.y, 32, 32)
@@ -274,3 +296,7 @@ func get_flag_coordinates(country: String) -> Vector2:
 	if country == "kn": return Vector2(160, 224);
 	if country == "na": return Vector2(416, 288);
 	return Vector2.ZERO
+
+class PlayerData:
+	var name: String = "Anon"
+	var id: String = str(ResourceUID.create_id())

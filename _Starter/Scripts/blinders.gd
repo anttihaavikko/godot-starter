@@ -30,8 +30,8 @@ func _ready() -> void:
 	
 func prepare():
 	var win := DisplayServer.window_get_size()
-	left.set_size(Vector2(win.x * 0.5, win.y) / get_tree().root.content_scale_factor, true)
-	right.set_size(Vector2(win.x * 0.5, win.y) / get_tree().root.content_scale_factor, true)
+	left.set_size(Vector2(win.x * 0.5, win.y * 2) / get_tree().root.content_scale_factor, true)
+	right.set_size(Vector2(win.x * 0.5, win.y * 2) / get_tree().root.content_scale_factor, true)
 	
 func open():
 	prepare()

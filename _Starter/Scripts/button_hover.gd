@@ -3,7 +3,7 @@ class_name ButtonHover extends Button
 @export var resize_border := false
 @export var border_width: int = 10
 
-var sound_index := 23
+var sound_index := 14
 
 func _ready():
 	mouse_entered.connect(hover_in)

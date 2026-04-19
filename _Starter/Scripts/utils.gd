@@ -19,5 +19,8 @@ static func as_score(num: int, separator: String = " ") -> String:
 	output.reverse()
 	return "".join(output)
 
-static func as_wavy(text: String):
+static func as_wavy(text: String) -> String:
 	return "[wave]%s[/wave]" % [text]
+
+static func colorize(text: String, color: String) -> String:
+	return text.replace("(", "[color=%s]" % [color]).replace(")", "[/color]")

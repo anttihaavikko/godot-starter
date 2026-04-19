@@ -9,6 +9,7 @@ class_name Mover extends Node2D
 @export var scale_speed := 5.0
 
 @export var single_direction: bool
+@export var time_offset := 0.0
 
 var start_pos: Vector2
 var time: float
@@ -24,9 +25,9 @@ func _process(delta: float) -> void:
 	time += delta
 
 	if moves:
-		var dir := sin(time * move_speed)
+		var dir := sin(time * move_speed + time_offset)
 		position = start_pos + move_direction * (abs(dir) if single_direction else dir)
 
 	if scales:
-		var dir := sin(time * scale_speed)
+		var dir := sin(time * scale_speed + time_offset)
 		scale = start_scale + scale_amount * (abs(dir) if single_direction else dir)

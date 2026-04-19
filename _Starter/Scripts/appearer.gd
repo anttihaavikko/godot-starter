@@ -48,9 +48,10 @@ func disappear(delay: float = 0.0):
 	await tween.finished
 	tween = null
 
-func show_with_text(text: String):
+func show_with_text(text: String, delay: float = -1):
 	if obj is Label or obj is RichTextLabel:
 		obj.text = text
+	if delay > 0: await get_tree().create_timer(delay).timeout
 	appear()
 
 func set_text(text: String):

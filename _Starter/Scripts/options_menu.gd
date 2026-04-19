@@ -46,6 +46,8 @@ func _input(_event):
 
 func restart():
 	close()
+	Blinders.singleton.close()
+	await Blinders.singleton.closed
 	get_tree().reload_current_scene()
 
 func toggle_fullscreen():

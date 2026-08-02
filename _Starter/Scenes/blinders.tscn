@@ -6,6 +6,7 @@
 script = ExtResource("1_5vmbb")
 left = NodePath("Left")
 right = NodePath("Right")
+duration = 0.5
 
 [node name="Left" type="ColorRect" parent="." unique_id=913807918]
 anchors_preset = 9

@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://cb5t88f4kwnhd"]
 
 [ext_resource type="Script" uid="uid://b0xj8uv7i86h5" path="res://_Starter/Scripts/score_row.gd" id="1_tfegv"]
-[ext_resource type="FontFile" uid="uid://db8vhjshhrvdi" path="res://Misc/norwester.otf" id="2_ah7sp"]
 [ext_resource type="Texture2D" uid="uid://jbo2w1jpf8jt" path="res://_Starter/Sprites/flags.png" id="2_gms0h"]
+[ext_resource type="Theme" uid="uid://dcgt6p5ro22q2" path="res://_Starter/Themes/theme.tres" id="3_ah7sp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tfegv"]
 atlas = ExtResource("2_gms0h")
@@ -25,9 +25,10 @@ stretch_mode = 5
 [node name="Name" type="RichTextLabel" parent="." unique_id=356705045]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_constants/shadow_offset_x = 0
+theme = ExtResource("3_ah7sp")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
-theme_override_fonts/normal_font = ExtResource("2_ah7sp")
 theme_override_font_sizes/normal_font_size = 32
 text = "Name"
 fit_content = true
@@ -35,9 +36,10 @@ fit_content = true
 [node name="Score" type="RichTextLabel" parent="." unique_id=677319986]
 layout_mode = 2
 size_flags_horizontal = 15
-theme_override_constants/shadow_offset_x = 0
+theme = ExtResource("3_ah7sp")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
-theme_override_fonts/normal_font = ExtResource("2_ah7sp")
 theme_override_font_sizes/normal_font_size = 32
 text = "123 "
 fit_content = true

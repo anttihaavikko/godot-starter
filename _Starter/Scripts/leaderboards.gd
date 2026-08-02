@@ -3,6 +3,7 @@ class_name Leaderboards extends VBoxContainer
 @export var game_name := "fff"
 @export var per_page := 9
 @export var row_prefab: PackedScene
+@export var load_on_start := true
 
 var base_url := "https://games.sahaqiel.com"
 var http_req: HTTPRequest
@@ -16,6 +17,7 @@ var current_page := 0
 func _ready() -> void:
 	player = saver.load(func(): return PlayerData.new()) as PlayerData
 	saver.save(player)
+
 	# print(player.name, " / ", player.id)
 	http_req = HTTPRequest.new()
 	send_req = HTTPRequest.new()
@@ -28,12 +30,14 @@ func _ready() -> void:
 		rows.push_back(row)
 		add_child(row)
 	http_req.request_completed.connect(got_scores)
-	load_scores(0)
+
+	if load_on_start:
+		load_scores(0)
 
 func next_page():
 	current_page += 1
 	load_scores(current_page)
-	
+
 func prev_page():
 	if current_page > 0:
 		current_page -= 1
@@ -46,7 +50,7 @@ func change_name(to: String):
 func load_scores(page: int):
 	var url = "%s/leaderboards/load-scores.php?amt=%d&p=%d&game=%s" % [base_url, per_page, page, game_name]
 	http_req.request(url)
-	
+
 func submit(score: int, level: int):
 	var data := "";
 	data += player.name
@@ -61,11 +65,12 @@ func submit(score: int, level: int):
 func got_scores(_result: int, _response_code: int, _headers: PackedStringArray, body: PackedByteArray):
 	var json := JSON.new()
 	json.parse(body.get_string_from_utf8())
+	# print(body.get_string_from_utf8())
 	var i := 0
 	for row in rows: row.hide()
 	for score in json.get_data().scores:
 		rows[i].name_label.text = "%d. %s" % [score.position, score.name]
-		rows[i].score_label.text = Utils.as_score(int(score.score)) + " "
+		rows[i].score_label.text = Utils.as_score(int(score.score), " ", true) + " "
 		rows[i].show()
 		var off := get_flag_coordinates(score.locale)
 		var tex := rows[i].flag.texture as AtlasTexture
@@ -295,7 +300,7 @@ func get_flag_coordinates(country: String) -> Vector2:
 	if country == "cl": return Vector2(320, 64);
 	if country == "kn": return Vector2(160, 224);
 	if country == "na": return Vector2(416, 288);
-	return Vector2.ZERO
+	return Vector2(0, 480)
 
 class PlayerData:
 	var name: String = "Anon"

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://brpgseb06rh2n"]
 
 [ext_resource type="Script" uid="uid://b78075ysex37g" path="res://_Starter/Scripts/text_pop.gd" id="1_2mv02"]
-[ext_resource type="FontFile" uid="uid://db8vhjshhrvdi" path="res://Misc/norwester.otf" id="1_70lkc"]
+[ext_resource type="Theme" uid="uid://dcgt6p5ro22q2" path="res://_Starter/Themes/theme.tres" id="2_jrvpy"]
 
 [sub_resource type="Animation" id="Animation_ayjou"]
 length = 0.001
@@ -77,8 +77,8 @@ offset_left = -380.0
 offset_top = -114.12
 offset_right = 381.0
 offset_bottom = 122.88
-theme_override_constants/outline_size = 24
-theme_override_fonts/normal_font = ExtResource("1_70lkc")
+theme = ExtResource("2_jrvpy")
+theme_override_constants/outline_size = 32
 theme_override_font_sizes/normal_font_size = 50
 bbcode_enabled = true
 text = "[wave]POP"

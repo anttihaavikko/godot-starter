@@ -1,7 +1,7 @@
 class_name Appearer
 extends Node
 
-@export var appear_after := 0.0
+@export var initial_show_delay := 0.0
 @export var auto_hide_after := 0.0
 @export var duration := 0.3
 @export var center_pivot := false
@@ -19,11 +19,11 @@ func _ready() -> void:
 
 	repivot()
 
-	if appear_after > 0:
-		appear(appear_after)
+	if initial_show_delay > 0:
+		appear(initial_show_delay)
 	if auto_hide_after:
 		disappear(auto_hide_after)
-		
+
 func repivot():
 	if center_pivot:
 		obj.pivot_offset = size * 0.5

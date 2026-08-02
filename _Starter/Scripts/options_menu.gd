@@ -1,18 +1,23 @@
 class_name OptionsMenu
 extends SlidingPanel
 
-@export var toggle_button: Button
+@export var toggle_button_top: Button
+@export var toggle_button_bottom: Button
 @export var music: Slider
 @export var sounds: Slider
 @export var extra_panel: SlidingPanel
+@export var toggle_button_on_top: bool
 
 var saver = Saver.new("settings.json")
 var data: SettingsData
 
 func _ready():
 	super._ready()
+	toggle_button_top.visible = toggle_button_on_top
+	toggle_button_bottom.visible = not toggle_button_on_top
 	show()
-	toggle_button.pressed.connect(close)
+	toggle_button_top.pressed.connect(close)
+	toggle_button_bottom.pressed.connect(close)
 	data = saver.load(func(): return SettingsData.new(0.5, 0.5)) as SettingsData
 	# print("%f/%f" % [data.music, data.sounds])
 	music.value = data.music
@@ -22,7 +27,7 @@ func _ready():
 	volumes_changed(0)
 	music.value_changed.connect(volumes_changed)
 	sounds.value_changed.connect(volumes_changed)
-	
+
 func prepare_slider(slider: Slider):
 	slider.max_value = 1.0
 	slider.min_value = 0
@@ -43,6 +48,12 @@ func close():
 func _input(_event):
 	if Input.is_action_just_pressed("escape"):
 		close()
+
+func quit():
+	Blinders.singleton.quit()
+
+func change_scene(scene: String = "start") -> void:
+	Blinders.singleton.change_scene(scene)
 
 func restart():
 	close()

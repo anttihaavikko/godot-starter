@@ -26,7 +26,7 @@ func add(index: int, pos: Vector2, volume: float = 1.0, pitch_range: float = 0.1
 
 	if effect is Node2D:
 		effect.position = pos
-	
+
 	if effect is AudioStreamPlayer2D:
 		effect.volume_linear = volume
 		effect.pitch_scale = randf_range(1 - pitch_range, 1 + pitch_range)

@@ -7,5 +7,5 @@ void fragment() {
 	vec4 white = vec4(1, 1, 1, 1);
 	// COLOR = white - (white - color) * COLOR;
 	// COLOR = vec4(COLOR.rgb, offset.a);
-	COLOR = vec4(white.rgb, offset.a);
+	COLOR *= vec4(COLOR.rgb, min(offset.a, offset.r));
 }

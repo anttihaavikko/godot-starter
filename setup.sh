@@ -39,3 +39,10 @@ else
 	echo "✅ Added editor plugins"
 fi
 
+if cat project.godot | grep -q editor_plugins
+then
+	echo "🚫 Skip adding input section";
+else
+	cat _project_input.godot >> project.godot
+	echo "✅ Added input section"
+fi

@@ -27,12 +27,13 @@ func _ready() -> void:
 	show()
 	await get_tree().create_timer(0.1).timeout
 	open()
-	
+
 func prepare():
-	var win := DisplayServer.window_get_size()
+	# var win := DisplayServer.window_get_size()
+	var win := Vector2(2048, 1080)
 	left.set_size(Vector2(win.x * 0.5, win.y * 2) / get_tree().root.content_scale_factor, true)
 	right.set_size(Vector2(win.x * 0.5, win.y * 2) / get_tree().root.content_scale_factor, true)
-	
+
 func open():
 	prepare()
 	get_tree().create_tween().tween_property(left, "scale", Vector2(0, 1), duration).set_trans(Tween.TRANS_QUAD)
@@ -42,8 +43,8 @@ func open():
 
 func close():
 	prepare()
-	get_tree().create_tween().tween_property(left, "scale", Vector2(1, 1), duration).set_trans(Tween.TRANS_BOUNCE)
-	get_tree().create_tween().tween_property(right, "scale", Vector2(-1, 1), duration).set_trans(Tween.TRANS_BOUNCE)
+	get_tree().create_tween().tween_property(left, "scale", Vector2(1.1, 1), duration).set_trans(Tween.TRANS_BOUNCE)
+	get_tree().create_tween().tween_property(right, "scale", Vector2(-1.1, 1), duration).set_trans(Tween.TRANS_BOUNCE)
 	await get_tree().create_timer(duration + 0.1).timeout
 	closed.emit()
 
@@ -53,3 +54,8 @@ func quit():
 	close()
 	await get_tree().create_timer(duration + 0.1).timeout
 	get_tree().quit()
+
+func change_scene(scene: String = "main") -> void:
+	close()
+	await get_tree().create_timer(duration + 0.1).timeout
+	get_tree().change_scene_to_file("res://Scenes/%s.tscn" % scene)
